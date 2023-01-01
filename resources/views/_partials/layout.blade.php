@@ -32,6 +32,8 @@
     <!-- Template Main CSS File -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
+    @yield('style')
+
     <!-- =======================================================
   * Template Name: NiceAdmin - v2.5.0
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/

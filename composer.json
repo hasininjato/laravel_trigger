@@ -13,7 +13,8 @@
         "fruitcake/laravel-cors": "^2.0.3",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.0",
-        "laravel/tinker": "^2.0|dev-develop"
+        "laravel/tinker": "^2.0|dev-develop",
+        "laravelcollective/html": "^6.3"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9.1",
