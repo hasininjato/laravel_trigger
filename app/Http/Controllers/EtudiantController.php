@@ -5,19 +5,34 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EtudiantRquest;
 use App\Models\Etudiant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Yajra\DataTables\Facades\DataTables;
 
 class EtudiantController extends Controller
 {
+    public function getEtudiants(Request $request)
+    {
+        $data = Etudiant::latest()->get();
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $update_route = route('etudiants.update', $row['id']);
+                $delete_route = route('etudiants.destroy', $row['id']);
+                $actionBtn = '<a href="' . $update_route . '" class="edit btn btn-success btn-sm">Modifier</a> <a href="' . $delete_route . '" class="delete btn btn-danger btn-sm">Supprimer</a>';
+                return $actionBtn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $etudiants = [];
-        $active = "active";
-        return view('etudiant.index', ['etudiants' => $etudiants, 'active' => $active]);
+        return view('etudiant.index');
     }
 
     /**

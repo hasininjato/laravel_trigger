@@ -19,3 +19,4 @@ Route::get('/', function () {
 });
 
 Route::resource('etudiants', EtudiantController::class);
+Route::get('ajax/etudiants', [EtudiantController::class, 'getEtudiants'])->name('ajax-etudiants');

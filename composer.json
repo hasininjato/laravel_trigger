@@ -14,7 +14,8 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0|dev-develop",
-        "laravelcollective/html": "^6.3"
+        "laravelcollective/html": "^6.3",
+        "yajra/laravel-datatables-oracle": "^9.21"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9.1",
