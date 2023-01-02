@@ -70,8 +70,8 @@
                         <th>Nom</th>
                         <th>Prénom(s)</th>
                         <th>Sexe</th>
-                        </tr>
-                    </tfoot>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>

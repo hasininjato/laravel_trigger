@@ -6,6 +6,7 @@ use App\Http\Requests\EtudiantRquest;
 use App\Http\Requests\EtudiantUpdateRequest;
 use App\Models\Etudiant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class EtudiantController extends Controller
@@ -17,8 +18,20 @@ class EtudiantController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $update_route = route('etudiants.edit', $row['id']);
-                $delete_route = route('etudiants.destroy', $row['id']);
-                $actionBtn = '<a href="' . $update_route . '" class="edit btn btn-success btn-sm">Modifier</a> <a href="' . $delete_route . '" class="delete btn btn-danger btn-sm">Supprimer</a>';
+                $destroy_route = route('etudiants.destroy', $row['id']);
+                $matricule = $row['id_registration'];
+                // $actionBtn = '<a href="' . $update_route . '" class="edit btn btn-success btn-sm">Modifier</a> <a href="javascript:void(0);" onclick="confirmer(' . $matricule . ')" class="delete btn btn-danger btn-sm">Supprimer</a>';
+                $actionBtn = '
+                    <div style="display: inline-block">
+                        <form action="' . $destroy_route . '" method="POST">
+                        ' . csrf_field() . '
+                        ' . method_field("DELETE") . '
+                        <a href="' . $update_route . '" class="edit btn btn-success btn-sm">Modifier</a>
+                        <button type="submit" class="delete btn btn-danger btn-sm""
+                            onclick="return confirm(\'Are You Sure Want to Delete?\')">Supprimer</a>
+                        </form>
+                    </div>
+                ';
                 return $actionBtn;
             })
             ->rawColumns(['action'])
@@ -114,6 +127,8 @@ class EtudiantController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $etudiant = Etudiant::find($id);
+        $etudiant->delete();
+        return redirect()->route('etudiants.index');
     }
 }

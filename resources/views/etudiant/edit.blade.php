@@ -1,7 +1,7 @@
 @extends('_partials.layout')
 
 @section('title')
-    Créer un nouvel étudiant
+    Modifier un étudiant
 @endsection
 
 @section('style')
