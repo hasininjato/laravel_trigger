@@ -1,13 +1,27 @@
 @extends('_partials.layout')
 
 @section('title')
-    Créer un nouvel étudiant
+    Information d'un étudiant
 @endsection
 
 @section('style')
     .center {
     display: inline-block;
     padding: 50px;
+    }
+
+    label {
+    float: left;
+    }
+
+    div.form-group {
+    display: block;
+    overflow: hidden;
+    padding: 0px 4px 0px 6px;
+    }
+
+    input {
+    width: 70%;
     }
 @endsection
 
@@ -21,11 +35,9 @@
 
 @section('content')
     <div class="container">
+        <h1>Information d'un étudiant</h1>
         <div class="card-deck mb-3 text-center">
             <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    Nouvel étudiant créé avec succès
-                </div>
                 <div class="card-body align-items-center">
                     <br>
                     <p>Matricule: {!! $etudiant['id_registration'] !!}</p>

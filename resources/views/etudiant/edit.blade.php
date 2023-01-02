@@ -20,34 +20,33 @@
 @endsection
 
 @section('content')
+    <h1>Modifier un étudiant</h1>
     <div class="container">
-        <h1>Créer un nouvel étudiant</h1>
         <div class="card-deck mb-3">
             <div class="card mb-4 box-shadow">
                 {{-- Formulaire --}}
-                {!! Form::open(['route' => 'etudiants.store', 'class' => 'needs-validation', 'novalidate' => 'novalidate']) !!}
+                {!! Form::open([
+                    'route' => ['etudiants.update', $etudiant->id],
+                    'class' => 'needs-validation',
+                    'novalidate' => 'novalidate',
+                ]) !!}
                 @csrf
+                @method('PUT')
                 <div class="card-body">
                     <br>
                     <div class="row mb-3">
                         {!! Form::label('id_registration', 'Matricule', ['class' => 'col-sm-2 form-label']) !!}
                         <div class="col-sm-10 has-validation form-group">
-                            {!! Form::number('id_registration', null, [
+                            {!! Form::number('id_registration', $etudiant->id_registration, [
                                 'class' => $errors->has('id_registration') ? 'form-control is-invalid' : 'form-control',
-                                'required',
+                                'readonly' => 'readonly',
                             ]) !!}
-                            {!! $errors->first('id_registration', '<small class="help-block text-danger">:message</small>') !!}
-                            @if (!$errors->has('id_registration'))
-                                <div class="invalid-feedback">
-                                    Le champ matricule est obligatoire
-                                </div>
-                            @endif
                         </div>
                     </div>
                     <div class="row mb-3">
                         {!! Form::label('lastname', 'Nom', ['class' => 'col-sm-2 form-label']) !!}
                         <div class="col-sm-10 has-validation form-group">
-                            {!! Form::text('lastname', null, [
+                            {!! Form::text('lastname', $etudiant->lastname, [
                                 'class' => $errors->has('lastname') ? 'form-control is-invalid' : 'form-control',
                                 'required',
                             ]) !!}
@@ -62,7 +61,7 @@
                     <div class="row mb-3">
                         {!! Form::label('firstname', 'Prénom(s)', ['class' => 'col-sm-2 form-label']) !!}
                         <div class="col-sm-10 has-validation form-group">
-                            {!! Form::text('firstname', null, [
+                            {!! Form::text('firstname', $etudiant->firstname, [
                                 'class' => $errors->has('firstname') ? 'form-control is-invalid' : 'form-control',
                                 'required',
                             ]) !!}
@@ -77,7 +76,7 @@
                     <div class="row mb-3">
                         {!! Form::label('birthday', 'Date de naissance', ['class' => 'col-sm-2 form-label']) !!}
                         <div class="col-sm-10 has-validation form-group">
-                            {!! Form::date('birthday', null, [
+                            {!! Form::date('birthday', $etudiant->birthday, [
                                 'class' => $errors->has('birthday') ? 'form-control is-invalid' : 'form-control',
                                 'required',
                             ]) !!}
@@ -92,7 +91,7 @@
                     <div class="row mb-3">
                         {!! Form::label('place_birth', 'Lieu de naissance', ['class' => 'col-sm-2 form-label']) !!}
                         <div class="col-sm-10 has-validation form-group">
-                            {!! Form::text('place_birth', null, [
+                            {!! Form::text('place_birth', $etudiant->place_birth, [
                                 'class' => $errors->has('place_birth') ? 'form-control is-invalid' : 'form-control',
                                 'required',
                             ]) !!}
@@ -107,22 +106,18 @@
                     <div class="row mb-3">
                         {!! Form::label('sex', 'Sexe', ['class' => 'col-sm-2 form-label']) !!}
                         <div class="col-sm-10 has-validation form-group">
-                            {!! Form::select('sex', $sex, null, [
+                            {!! Form::text('sex', $etudiant->sex, [
                                 'class' => $errors->has('sex') ? 'form-control is-invalid' : 'form-control',
-                                'required',
+                                'readonly' => 'readonly',
+                                'value' => $etudiant->sex,
                             ]) !!}
                             {!! $errors->first('sex', '<small class="help-block text-danger">:message</small>') !!}
-                            @if (!$errors->has('sex'))
-                                <div class="invalid-feedback">
-                                    Le champ sexe est obligatoire
-                                </div>
-                            @endif
                         </div>
                     </div>
                     <br>
                 </div>
                 <div class="card-footer text-center">
-                    {!! Form::submit('Enregistrer', ['class' => 'btn btn-lg btn-primary']) !!}
+                    {!! Form::submit('Modifier', ['class' => 'btn btn-lg btn-primary']) !!}
                 </div>
                 {!! Form::close() !!}
             </div>

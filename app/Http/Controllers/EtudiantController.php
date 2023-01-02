@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EtudiantRquest;
+use App\Http\Requests\EtudiantUpdateRequest;
 use App\Models\Etudiant;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class EtudiantController extends Controller
@@ -16,7 +16,7 @@ class EtudiantController extends Controller
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                $update_route = route('etudiants.update', $row['id']);
+                $update_route = route('etudiants.edit', $row['id']);
                 $delete_route = route('etudiants.destroy', $row['id']);
                 $actionBtn = '<a href="' . $update_route . '" class="edit btn btn-success btn-sm">Modifier</a> <a href="' . $delete_route . '" class="delete btn btn-danger btn-sm">Supprimer</a>';
                 return $actionBtn;
@@ -32,7 +32,7 @@ class EtudiantController extends Controller
      */
     public function index(Request $request)
     {
-        return view('etudiant.index');
+        return response(view('etudiant.index'));
     }
 
     /**
@@ -48,7 +48,7 @@ class EtudiantController extends Controller
             'Féminin' => 'Féminin',
             'Masculin' => 'Masculin',
         ];
-        return view('etudiant.create', ['active' => $active, 'sex' => $sex]);
+        return response(view('etudiant.create')->with(['active' => $active, 'sex' => $sex]));
     }
 
     /**
@@ -60,7 +60,7 @@ class EtudiantController extends Controller
     public function store(EtudiantRquest $request)
     {
         Etudiant::create($request->all());
-        return view('etudiant.created', ['etudiant' => $request->all()]);
+        return response(view('etudiant.created')->with(['etudiant' => $request->all()]));
     }
 
     /**
@@ -71,7 +71,8 @@ class EtudiantController extends Controller
      */
     public function show($id)
     {
-        //
+        $etudiant = Etudiant::find($id);
+        return response(view('etudiant.show')->with(['etudiant' => $etudiant]));
     }
 
     /**
@@ -82,7 +83,8 @@ class EtudiantController extends Controller
      */
     public function edit($id)
     {
-        //
+        $etudiant = Etudiant::find($id);
+        return response(view('etudiant.edit')->with(['etudiant' => $etudiant]));
     }
 
     /**
@@ -92,9 +94,16 @@ class EtudiantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EtudiantUpdateRequest $request, $id)
     {
-        //
+        $etudiant = Etudiant::find($id);
+        $etudiant->lastname = $request->get('lastname');
+        $etudiant->firstname = $request->get('firstname');
+        $etudiant->birthday = $request->get('birthday');
+        $etudiant->place_birth = $request->get('place_birth');
+        $etudiant->save();
+
+        return redirect()->route('etudiants.show', ['etudiant' => $id])->with(['etudiant' => $etudiant]);
     }
 
     /**
